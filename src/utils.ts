@@ -12,7 +12,7 @@ const FALSE_VALIES = [false, 0, '0', 'false']
 const BOOLEAN_VALUES = [...TRUE_VALUES, ...FALSE_VALIES]
 
 //primitive values
-const PRIMITIVE_VALUES: string[] = ['string', 'number', 'boolean']
+const PRIMITIVE_VALUES: string[] = ['string', 'number', 'boolean', 'symbol']
 
 
 /**
@@ -20,7 +20,7 @@ const PRIMITIVE_VALUES: string[] = ['string', 'number', 'boolean']
  * @param value 
  * @returns {Boolean}
  */
-const isRegexp = (value: RegExp): boolean => TOSTRING.call(value) === '[object RegExp]'
+const isRegexp = (value: any): boolean => TOSTRING.call(value) === '[object RegExp]'
 
 
 /**
@@ -142,7 +142,7 @@ const isFalse = (value: any): boolean => {
  * @param value
  * @returns {Boolean} 
  */
-const isPlainObject = (value: any): boolean => value !== null && TOSTRING.call(value) === 'object Object'
+const isPlainObject = (value: any): boolean => value !== null && TOSTRING.call(value) === '[object Object]'
 
 
 /**
