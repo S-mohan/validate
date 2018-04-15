@@ -88,15 +88,17 @@ const MSG_TPL_REG: RegExp = /{\$(\w+)}/g
  * @param {Any} replace
  * @returns {String} 
  */
-const getMsg = (msg: string, rule: string, replace?: any): string => msg || M[rule].replace(MSG_TPL_REG, (a: string, f: string) => {
+const getMsg = (msg: string, rule: string, replace?: any): string => msg || (M[rule] ? M[rule].replace(MSG_TPL_REG, (a: string, f: string) => {
   if (replace && replace[f] !== void 0) {
     return replace[f]
   }
   return f 
-})
+}) : '')
 
 
 class Validate {
+
+  static version:string = '__VERSION__'
 
   /**
    * 验证是否是预期规则的值
@@ -174,7 +176,7 @@ class Validate {
           }
           break
         case 'between':
-          if (rule && _.isPlainObject(rule) && _.isNumber(rule.min) && _.isNumber(rule.max))
+          if (_.isPlainObject(rule) && _.isNumber(rule.min) && _.isNumber(rule.max))
             result = (value - rule.min) >= 0 && (value - rule.max) <= 0
           break
         case 'min':
@@ -199,7 +201,7 @@ class Validate {
           break
         default:
           //使用预定义的正则表达式
-          result = R[rule] ? _.regex(R[rule], value) : false
+          result = R[name] ? _.regex(R[name], value) : false
       }
     } else if (rule !== void 0) {
       result = _.isRegexp(rule) ?
@@ -265,7 +267,8 @@ class Validate {
       ruleMap: Property,
       value: any,
       res: Result = {
-        status: true
+        status: true,
+        fields: Object.create(null)
       }
 
     for (field in rules) {
@@ -289,13 +292,18 @@ class Validate {
       ) {
         msg = getMsg(_.isString(ruleMap[ruleName]) ? ruleMap[ruleName] : '', ruleName, { field })
         res.status = false
-        res[field] = msg
+        res.fields[field] = msg
 
         if (exitImmediately) {
+          res.msg = msg
           break
         } else {
           continue
         }
+      }
+
+      if (_.isEmpty(value)) {
+        continue
       }
 
       for (ruleName in ruleMap) {
@@ -316,8 +324,6 @@ class Validate {
             min : rule.min,
             max : rule.max 
           }
-          delete rule.min
-          delete rule.max
         }
 
         if (!Validate.is(ruleName, value, rule.rule)) {
@@ -329,17 +335,14 @@ class Validate {
           })
 
           res.status = false
-          res[field] = msg
+          res.fields[field] = msg
           break
         }
       }
 
       //如果设置了遇错跳出，则仅返回当前msg
       if (exitImmediately && !res.status) {
-        res = {
-          status: false,
-          msg
-        }
+        res.msg = msg
         break
       }
     }

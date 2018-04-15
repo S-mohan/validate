@@ -150,7 +150,7 @@ const isPlainObject = (value: any): boolean => value !== null && TOSTRING.call(v
  * @param value 
  * @returns {Boolean} 
  */
-const isArray = (value: any): boolean => Array.isArray.call(value)
+const isArray = (value: any): boolean => Array.isArray.call(null, value)
 
 
 /**

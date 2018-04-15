@@ -6,10 +6,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        fieldset {
+            border: 1px solid #ccc;
+            margin-top: -1px;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="url"],
+        input[type="email"],
+        select {
+            min-width: 240px;
+            display: inline-block;
+            line-height: 22px;
+            height: 34px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            margin: 0 10px;
+        }
+        
+        .checkbox {
+            margin: 0 10px;
+        }
+    </style>
 </head>
 
 <body>
+    <form method="POST" name="myForm" id="myForm">
+        <fieldset>
+            <label>标题</label>
+            <input type="text" name="title" placeholder="2-40个字符">
+        </fieldset>
+        <fieldset>
+            <label>分类</label>
+            <select name="category">
+              <option value="">请选择</option>
+              <option value="1">分类1</option>
+              <option value="2">分类2</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <label>作者</label>
+            <input type="text" name="author" placeholder="中英文">
+        </fieldset>
+        <fieldset>
+            <label>阅读</label>
+            <input type="number" name="views" placeholder="integer">次
+        </fieldset>
+        <fieldset>
+            <label>单价</label>
+            <input type="number" step="0.01" name="price" placeholder="float">￥
+        </fieldset>
+        <fieldset>
+            <label>年龄</label>
+            <input type="number" name="age" placeholder="integer && in 18-35岁之间">
+        </fieldset>
+        <fieldset>
+            <label>URL</label>
+            <input type="text" name="url">
+        </fieldset>
+        <fieldset>
+            <label>标签</label>
+            <label class="checkbox">
+              <input type="checkbox" value="vue" name="tag">VUE
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" value="javascript" name="tag">JAVASCRIPT
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" value="css" name="tag">CSS
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" value="node" name="tag">NODE
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" value="php" name="tag">PHP
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>邮箱</label>
+            <input type="text" name="email">
+        </fieldset>
+        <fieldset>
+            <label>日期</label>
+            <input type="text" name="date" placeholder="2018-04-15">
+        </fieldset>
+        <fieldset>
+            <label>自定义</label>
+            <input type="text" name="custom" placeholder="必须输入smohan">
+        </fieldset>
+        <fieldset>
+            <button type="submit">保存</button>
+            <label style="margin-left: 20px;">
+              <input type="checkbox" id="singleStep">
+              单步模式
+            </label>
+        </fieldset>
+    </form>
+    <div id="result">
 
+    </div>
     <script src="../dist/validate.js"></script>
     <script src="./browser.js"></script>
 </body>
