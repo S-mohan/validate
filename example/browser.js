@@ -3,7 +3,7 @@
 
     var rules = {
         title: {
-            notEmpty: '',
+            require: '',
             minLength: {
                 rule: 2,
             },
@@ -12,22 +12,22 @@
             }
         },
         category: {
-            notEmpty: '',
+            require: '',
         },
         author: {
-            notEmpty: '',
+            require: '',
             chsAlpha: ''
         },
         views: {
-            notEmpty: '',
+            require: '',
             integer: ''
         },
         price: {
-            notEmpty: '',
+            require: '',
             float: ''
         },
         age: {
-            notEmpty: '',
+            require: '',
             integer: '',
             between: {
                 min: 18,
@@ -39,18 +39,18 @@
         },
         tag: {
             array: '',
-            notEmpty: '',
+            require: '',
         },
         email: {
-            notEmpty: '',
+            require: '',
             email: ''
         },
         date: {
-            notEmpty: '',
+            require: '',
             date: ''
         },
         custom: {
-            notEmpty: '',
+            require: '',
             myRule: {
                 rule: function(value) {
                     return value === 'smohan'

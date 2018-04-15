@@ -7,7 +7,9 @@ module.exports = {
         path: __dirname + '/dist',
         library: "Validator",
         libraryTarget: "umd",
-        libraryExport: 'default'
+        libraryExport: 'default',
+        umdNamedDefine: true,
+        globalObject: 'this'
     },
     mode: 'production',
     module: {

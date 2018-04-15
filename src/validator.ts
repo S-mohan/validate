@@ -3,7 +3,7 @@ import M from './messages'
 import R from './rules'
 
 //内置规则
-const BUILT_IN_RULES = ['objectId', 'email', 'alpha', 'alphaNum', 'alphaDash', 'chs', 'chsAlpha', 'chsAlphaNum', 'chsDash', 'url', 'date', 'array', 'string', 'number', 'integer', 'float', 'boolean', 'true', 'false', 'notEmpty', 'empty', 'in', 'between', 'min', 'max', 'length', 'minLength', 'maxLength']
+const BUILT_IN_RULES = ['objectId', 'email', 'alpha', 'alphaNum', 'alphaDash', 'chs', 'chsAlpha', 'chsAlphaNum', 'chsDash', 'url', 'date', 'array', 'string', 'number', 'integer', 'float', 'boolean', 'true', 'false', 'require', 'empty', 'in', 'between', 'min', 'max', 'length', 'minLength', 'maxLength']
 
 //缓存hasOwnProperty
 const hasOwnProperty = Object.prototype.hasOwnProperty
@@ -92,13 +92,13 @@ const getMsg = (msg: string, rule: string, replace?: any): string => msg || (M[r
   if (replace && replace[f] !== void 0) {
     return replace[f]
   }
-  return f 
+  return f
 }) : '')
 
 
 class Validator {
 
-  static version:string = '__VERSION__'
+  static version: string = '__VERSION__'
 
   /**
    * 验证是否是预期规则的值
@@ -138,7 +138,7 @@ class Validator {
         case 'empty':
           result = _.isEmpty(value)
           break
-        case 'notEmpty':
+        case 'require':
           result = !_.isEmpty(value)
           break
         case 'string':
@@ -181,11 +181,11 @@ class Validator {
           break
         case 'min':
           if (_.isNumber(rule))
-            result = value - rule <= 0
+            result = value - rule >= 0
           break
         case 'max':
           if (_.isNumber(rule))
-            result = value - rule >= 0
+            result = value - rule <= 0
           break
         case 'minLength':
           if (_.isNumber(rule))
@@ -221,7 +221,6 @@ class Validator {
    * {
    *    email : {
    *      require : 'email is required',
-   *      notEmpty : 'email is empty',
    *      email : 'invalid email',
    *    },
    *    
@@ -282,18 +281,11 @@ class Validator {
 
       let rule: any, ruleName: string, msg: string
 
-      //优先处理 require|array|notEmpty
-      //_.isEmpty([]) === true, 所以array验证在notEmpty之前
-      //只有这三条规则通过了，才可以验证其他规则
-      if (
-        ((ruleName = 'require') && hasOwn('require', ruleMap) && value === void 0) ||
-        ((ruleName = 'array') && hasOwn('array', ruleMap) && !_.isArray(value)) ||
-        ((ruleName = 'notEmpty') && hasOwn('notEmpty', ruleMap) && _.isEmpty(value))
-      ) {
-        msg = getMsg(_.isString(ruleMap[ruleName]) ? ruleMap[ruleName] : '', ruleName, { field })
+      //优先处理 require
+      if ( hasOwn('require', ruleMap) && _.isEmpty(value) ) {
+        msg = getMsg(_.isString(ruleMap['require']) ? ruleMap['require'] : '', 'require', { field })
         res.status = false
         res.fields[field] = msg
-
         if (exitImmediately) {
           res.msg = msg
           break
@@ -302,13 +294,12 @@ class Validator {
         }
       }
 
-      if (_.isEmpty(value)) {
+      if (_.isEmpty(value))
         continue
-      }
 
       for (ruleName in ruleMap) {
         //排除 require|array|notEmpty
-        if (ruleName === 'require' || ruleName === 'array' || ruleName === 'notEmpty')
+        if (ruleName === 'require')
           continue
 
         rule = ruleMap[ruleName]
@@ -321,8 +312,8 @@ class Validator {
 
         if (ruleName === 'between') {
           rule.rule = {
-            min : rule.min,
-            max : rule.max 
+            min: rule.min,
+            max: rule.max
           }
         }
 

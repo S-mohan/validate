@@ -1,0 +1,16 @@
+{
+    "name": "express_valdate_example",
+    "version": "1.0.0",
+    "description": "validator for express",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app"
+    },
+    "author": "smohan",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.18.2",
+        "express": "^4.16.3"
+    }
+}

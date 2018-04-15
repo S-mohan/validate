@@ -47,7 +47,6 @@ const isString = (value: any): boolean => typeof value === 'string'
 
 /**
  * 判断传入的值是否为空
- * 如果是数组，判断数组是否为空
  * @param value 
  * @returns {Boolean}
  */
@@ -55,8 +54,7 @@ const isEmpty = (value: any): boolean => {
   if (
     value === void 0 ||
     value === null ||
-    (isString(value) && value.trim().length === 0) ||
-    (Array.isArray(value) && value.length === 0)
+    (isString(value) && value.trim().length === 0) 
   )
     return true
   return false

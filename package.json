@@ -1,7 +1,7 @@
 {
     "name": "validator",
     "version": "1.0.0",
-    "description": "A cross-browser and server-side validation component",
+    "description": "A cross-browser and server data validator",
     "main": "./dist/Validator.js",
     "scripts": {
         "test": "mocha -r ts-node/register test/specs/*.spec.ts",
@@ -40,6 +40,5 @@
         "typescript": "^2.8.1",
         "webpack": "^4.5.0",
         "webpack-cli": "^2.0.14"
-    },
-    "dependencies": {}
+    }
 }
