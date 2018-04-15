@@ -1,11 +1,11 @@
 const pkj = require('./package.json')
 const webpack = require('webpack')
 module.exports = {
-    entry: './src/validate.ts',
+    entry: './src/validator.ts',
     output: {
-        filename: 'validate.js',
+        filename: 'validator.js',
         path: __dirname + '/dist',
-        library: "Validate",
+        library: "Validator",
         libraryTarget: "umd",
         libraryExport: 'default'
     },

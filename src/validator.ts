@@ -96,7 +96,7 @@ const getMsg = (msg: string, rule: string, replace?: any): string => msg || (M[r
 }) : '')
 
 
-class Validate {
+class Validator {
 
   static version:string = '__VERSION__'
 
@@ -326,7 +326,7 @@ class Validate {
           }
         }
 
-        if (!Validate.is(ruleName, value, rule.rule)) {
+        if (!Validator.is(ruleName, value, rule.rule)) {
           msg = getMsg(rule.msg, ruleName, {
             field,
             rule: rule.rule,
@@ -351,4 +351,4 @@ class Validate {
   }
 }
 
-export default Validate
+export default Validator

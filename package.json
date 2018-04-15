@@ -1,25 +1,31 @@
 {
-    "name": "validate",
+    "name": "validator",
     "version": "1.0.0",
-    "description": "",
-    "main": "./src/validate.js",
+    "description": "A cross-browser and server-side validation component",
+    "main": "./dist/Validator.js",
     "scripts": {
-        "test": "mocha -r ts-node/register  test/specs/*.spec.ts",
+        "test": "mocha -r ts-node/register test/specs/*.spec.ts",
         "build": "webpack"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/S-mohan/validate.git"
+        "url": "git+https://github.com/S-mohan/validator.git"
     },
     "keywords": [
-        "validate"
+        "Validator",
+        "form validate",
+        "req.body validate",
+        "post data validate",
+        "express validate",
+        "koa validate",
+        "node validate"
     ],
     "author": "smohan",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/S-mohan/validate/issues"
+        "url": "https://github.com/S-mohan/validator/issues"
     },
-    "homepage": "https://github.com/S-mohan/validate#readme",
+    "homepage": "https://github.com/S-mohan/validator#readme",
     "devDependencies": {
         "@types/chai": "^4.1.2",
         "@types/mocha": "^5.0.0",

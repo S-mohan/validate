@@ -104,7 +104,7 @@
         var isSingleStep = !!$singleStep.checked
 
 
-        var validate = Validate.check(rules, data, isSingleStep)
+        var validate = Validator.check(rules, data, isSingleStep)
 
         if (!validate.status) {
             $result.style.cssText += 'color:red';

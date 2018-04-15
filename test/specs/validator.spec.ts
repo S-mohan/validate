@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import V from '../../src/validate'
+import V from '../../src/validator'
 
 describe.only('Validate Class Test', function () {
 
