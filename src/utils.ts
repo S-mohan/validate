@@ -31,7 +31,7 @@ const isRegexp = (value: any): boolean => TOSTRING.call(value) === '[object RegE
  */
 const regex = (reg: RegExp, value: any): boolean => {
   if (!isRegexp(reg)) {
-    throw TypeError('')
+    throw TypeError('[VALIDATE ERROR]: The parameter reg must be a RegExp object')
   }
   return !!reg.test(value)
 }

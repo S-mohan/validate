@@ -5,14 +5,8 @@ import R from './rules'
 //内置规则
 const BUILT_IN_RULES = ['objectId', 'email', 'alpha', 'alphaNum', 'alphaDash', 'chs', 'chsAlpha', 'chsAlphaNum', 'chsDash', 'url', 'date', 'array', 'string', 'number', 'integer', 'float', 'boolean', 'true', 'false', 'notEmpty', 'empty', 'in', 'between', 'min', 'max', 'length', 'minLength', 'maxLength']
 
-//长度规则
-const LENGTH_RULES = ['min', 'max', 'minLength', 'maxLength', 'length']
-
-
-
+//缓存hasOwnProperty
 const hasOwnProperty = Object.prototype.hasOwnProperty
-
-
 
 interface Property {
   [propName: string]: any
@@ -25,9 +19,8 @@ interface Result {
 }
 
 
-
 /**
- * 
+ * 属性检测
  * @param name 
  * @param obj 
  * @returns {Boolean}
@@ -48,6 +41,25 @@ const getLen = (value: any): number => {
 }
 
 
+/**
+ * 根据path路径从object中取值
+ * eg.
+ * let obj = {
+ *  a : {
+ *    b : {
+ *      c : 1
+ *    }
+ *  },
+ *  d : [{c : 2}] 
+ * }
+ * getObjectValue('a.b.c', obj) => 1
+ * getObjectValue('a.d.0.c', obj) => 2
+ * getObjectValue('a.d.0', obj) => {c: 2}
+ * 
+ * @param name 
+ * @param object 
+ * @returns {Any}
+ */
 const getObjectValue = (name: string, object: Property): any => {
   if (_.isEmpty(name))
     return void 0
@@ -65,6 +77,8 @@ const getObjectValue = (name: string, object: Property): any => {
   return object
 }
 
+
+//消息模板
 const MSG_TPL_REG: RegExp = /{\$(\w+)}/g
 
 /**
@@ -80,10 +94,6 @@ const getMsg = (msg: string, rule: string, replace?: any): string => msg || M[ru
   }
   return f 
 })
-
-
-
-
 
 
 class Validate {
@@ -116,7 +126,7 @@ class Validate {
    */
   static is(name: string, value: any, rule?: any): boolean {
     if (!_.isString(name) || _.isEmpty(name)) {
-      throw TypeError('name must be a string')
+      throw TypeError('[VALIDATE ERROR]: The parameter name must be a string')
     }
 
     let result: boolean = false
@@ -157,7 +167,7 @@ class Validate {
           if (_.isPrimitive(rule))
             rule = [rule]
           if (_.isArray(rule)) {
-            //如果是数字，讲类似于 '1' in [1]匹配到
+            //如果是数字，将类似于 '1' in [1]匹配到
             let _value: number = Number(value)
             value = _.isNaN(_value) ? value : _value
             result = !!~rule.indexOf(value)
@@ -203,7 +213,9 @@ class Validate {
 
   /**
    * 
+   * 检查插入对象是否和传入规则匹配
    * 
+   * eg.
    * {
    *    email : {
    *      require : 'email is required',
@@ -234,19 +246,19 @@ class Validate {
    *         rule : /^(\w){2,20}$/,
    *         msg : 'nickname between 2-20 characters'
    *       }
-   *     },
-   *    
-   * 
+   *     }
    * }
    * 
    * 
-   * @param rules 
-   * @param data
-   * @param exitImmediately 
+   * @param rules 规则
+   * @param data 待验证数据包
+   * @param exitImmediately 是否遇到错误就立即退出
+   * 1. exitImmediately = true: 一旦遇到校验失败就立即返回失败信息
+   * 2. exitImmediately = false: 待全部规则校验完毕才返回
    */
   static check(rules: Property, data: Property, exitImmediately?: boolean): Result {
     if (!_.isPlainObject(rules) || !_.isPlainObject(data)) {
-      throw TypeError('rules or data must be a object')
+      throw TypeError('[VALIDATE ERROR]: The parameter rules or data  must be an object')
     }
 
     let field: string,
@@ -268,7 +280,7 @@ class Validate {
       let rule: any, ruleName: string, msg: string
 
       //优先处理 require|array|notEmpty
-      //因为 _.isEmpty([]) === true, 所以array验证在notEmpty之前
+      //_.isEmpty([]) === true, 所以array验证在notEmpty之前
       //只有这三条规则通过了，才可以验证其他规则
       if (
         ((ruleName = 'require') && hasOwn('require', ruleMap) && value === void 0) ||
@@ -304,6 +316,8 @@ class Validate {
             min : rule.min,
             max : rule.max 
           }
+          delete rule.min
+          delete rule.max
         }
 
         if (!Validate.is(ruleName, value, rule.rule)) {
@@ -330,11 +344,8 @@ class Validate {
       }
     }
 
-
     return res
-
   }
-
 }
 
 export default Validate
