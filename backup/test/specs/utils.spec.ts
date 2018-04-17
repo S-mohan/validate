@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import _ from '../../src/utils'
 
-describe('Test Utils', () => {
+describe.only('Test Utils', () => {
 
   it('value is String', () => {
     // true
@@ -24,11 +24,23 @@ describe('Test Utils', () => {
 
 
   it ('value is Empty', () => {
-    
+
+    // null undefined empty string  
+
+    expect(_.isEmpty('')).to.true
+    expect(_.isEmpty(void 0)).to.true
+    expect(_.isEmpty(null)).to.true
+    expect(_.isEmpty(0)).to.false
+    expect(_.isEmpty(false)).to.false
+
+    // trim string
+    expect(_.isEmpty('   ')).to.true
+    expect(_.isEmpty('abc ')).to.false
   }) 
 
   it ('value is NaN', () => {
-    
+      
+
   }) 
 
   it ('value is Number', () => {

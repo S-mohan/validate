@@ -1,7 +1,7 @@
 const pkj = require('./package.json')
 const webpack = require('webpack')
 module.exports = {
-	entry: './src/index.js',
+	entry: './src/validator.ts',
 	output: {
 		filename: 'validator.js',
 		path: __dirname + '/dist',
@@ -15,22 +15,28 @@ module.exports = {
 	module: {
 		rules: [{
 			test: /\.js$/,
-      exclude: /node_modules/,
-      use : [
-        {
-          loader: 'babel-loader'
-        },
-        {
-          loader: 'string-replace-loader',
-          options: {
-            search: '__VERSION__',
-            replace: pkj.version,
-          }
-        }
-      ],
-      exclude: /node_modules/
-    },
+			exclude: /node_modules/,
+			loader: 'babel-loader'
+		},
+		{
+			test: /\.tsx?$/,
+			use: [{
+				loader: 'ts-loader'
+			},
+			{
+				loader: 'string-replace-loader',
+				options: {
+					search: '__VERSION__',
+					replace: pkj.version,
+				}
+			}
+			],
+			exclude: /node_modules/
+		}
 		]
+	},
+	resolve: {
+		extensions: ['.tsx', '.ts', '.js']
 	},
 	plugins: [
 		new webpack.BannerPlugin(`${pkj.name} ${pkj.version}\n(c) 2018 Smohan<https://smohan.net>\nReleased under the ${pkj.license} License.`)

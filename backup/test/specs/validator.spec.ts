@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import V from '../../src/validator'
 
-describe.only('Validate Class Test', function () {
+describe('Validate Class Test', function () {
 
   it('Validate built-in rules', function () {
     const rules = {
