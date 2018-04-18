@@ -61,8 +61,18 @@ const getObjectValue = (name, object) => {
 }
 
 
+/**
+ * 首字母大写
+ * @param {String} value
+ * @returns {String} 
+ */
+const ucfirst = value => value.charAt(0).toUpperCase() + value.slice(1)
+
+
+
 export {
   hasOwn,
   getLen,
-  getObjectValue
+  getObjectValue,
+  ucfirst
 }

@@ -1,8 +1,8 @@
+import _ from '../../src/is'
+
 import { expect } from 'chai'
-import _ from '../../src/utils'
 
-describe.only('Test Utils', () => {
-
+describe('test is', function () {
   it('value is String', () => {
     // true
     expect(_.isString('string')).to.true

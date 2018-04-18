@@ -4,15 +4,16 @@ import M from './locale/en'
 import {
   hasOwn,
   getLen,
-  getObjectValue
+  getObjectValue,
+  ucfirst
 } from './utils'
 
 
 //内置规则
-const BUILT_IN_RULES = ['objectId', 'email', 'alpha', 'alphaNum', 'alphaDash', 'chs', 'chsAlpha', 'chsAlphaNum', 'chsDash', 'url', 'date', 'array', 'string', 'number', 'integer', 'float', 'boolean', 'true', 'false', 'require', 'empty', 'in', 'between', 'min', 'max', 'length', 'minLength', 'maxLength']
+const BUILT_IN_RULES = ['objectId', 'email', 'alpha', 'alphaNum', 'alphaDash', 'chs', 'chsAlpha', 'chsAlphaNum', 'chsDash', 'url', 'date', 'array', 'string', 'number', 'integer', 'safeInteger', 'float', 'boolean', 'true', 'false', 'require', 'empty', 'in', 'between', 'min', 'max', 'length', 'minLength', 'maxLength']
 
 //内置规则正则
-const BUILT_IN_IS_REG = /^is(\w+)$/
+const BUILT_IN_IS_REG = /^is([A-Z]\w+)$/
 
 //消息模板
 const MSG_TPL_REG = /{\$(\w+)}/g
@@ -32,7 +33,8 @@ const getMsg = (msg, rule, replace) => msg || (M[rule] ? M[rule].replace(MSG_TPL
 }) : '')
 
 
-function Validator() {}
+//方便以后扩展原型方法
+const Validator = Object.create(null)
 
 
 /**
@@ -275,10 +277,22 @@ Validator.check = (rules, data, exitImmediately = false) => {
   return res
 }
 
-//将一些基础方法挂载在上面
-Validator._ = _
+//基础方法
+Object.keys(_).forEach(rule => {
+  if (_.regex(BUILT_IN_IS_REG, rule)) {
+    Validator[rule] = _[rule]
+  }
+})
+
+//内置正则规则转方法
+Object.keys(R).forEach(rule => Validator[`is${ucfirst(rule)}`] = value => _.regex(R[rule], value))
+
 
 //版本号
 Validator.version = '__VERSION__'
+
+
+Object.freeze(Validator)
+
 
 export default Validator
