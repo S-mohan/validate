@@ -73,7 +73,8 @@ const validatorForBuiltInRules = (ruleKey: ValidatorBuiltInRules, format: any, v
       return isFalse(value)
     case 'in':
       if (isArray(format)) {
-        return format.includes(value)
+        // 兼容下数字类型
+        return format.includes(value) || format.includes(+value)
       }
       break
     case 'between':
