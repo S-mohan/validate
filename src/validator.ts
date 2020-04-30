@@ -1,5 +1,5 @@
 import { Validator, ValidatorOptions, ValidatorBuiltInRules, ValidatorRuleObject, ValidatorBuiltInRegexRules, ValidatorErrorResult, ValidatorObject } from '../validator'
-import { isPlainObject, isEmpty, isString, isArray, isNumber, isInteger, isSafeInteger, isFloat, isBoolean, isTrue, isFalse, isFunction, isUndefined, isPrimitive, isRegexp, isNull, isObject, regex } from './is'
+import { isPlainObject, isEmpty, isString, isArray, isNumber, isInteger, isSafeInteger, isFloat, isBoolean, isTrue, isFalse, isFunction, isUndefined, isPrimitive, isRegexp, isNull, isObject } from './is'
 import defaultLocales from './locale/en'
 import { getObjectValue, hasKey, hasOwn, getLen, ucfirst } from './utils'
 import BuiltInRules from './rules'
@@ -221,6 +221,7 @@ export const validator: Validator = (source, constraints, options = {}) => {
       continue
     }
 
+    const errors: Array<string> = errorResult[field] = []
     // 2. 空值校验
     if (isEmpty(value)) {
       if (hasNotEmptyKey) {
@@ -232,7 +233,6 @@ export const validator: Validator = (source, constraints, options = {}) => {
       }
     }
 
-    const errors: Array<string> = errorResult[field] = []
     // 3. 其他规则校验
     // 保持定义时的顺序
     const ruleKeys = Object.keys(rules).filter(rule => rule !== REQUIRED_KEY && rule !== NOT_EMPTY_KEY)
