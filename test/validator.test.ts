@@ -17,7 +17,7 @@ const constraints = {
 
 const source = {
   username: '',
-  password: '123',
+  password: '',
   email: ''
 }
 

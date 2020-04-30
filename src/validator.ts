@@ -230,6 +230,9 @@ export const validator: Validator = (source, constraints, options = {}) => {
           field,
           format
         }))
+        if (props.mode !== 'all') {
+          continue
+        }
       }
     }
 
