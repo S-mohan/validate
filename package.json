@@ -1,13 +1,12 @@
 {
 	"name": "validator",
-	"version": "0.1.2",
+	"version": "0.1.4",
 	"description": "A cross-browser and server data validator",
-	"main": "./libs/Validator.js",
+	"main": "./libs/validator.js",
+	"typings": "./validator.d.ts",
 	"scripts": {
-		"unit": "cross-env BABEL_ENV=test karma start test/karma.conf.js --single-run",
-		"test": "karma start test/karma.conf.js --single-run",
-		"build": "webpack",
-		"start": ""
+		"test": "jest ./test",
+		"build": "webpack"
 	},
 	"repository": {
 		"type": "git",
@@ -31,9 +30,14 @@
 	"devDependencies": {
 		"@babel/core": "^7.5.5",
 		"@babel/preset-env": "^7.5.5",
+		"@babel/preset-typescript": "^7.9.0",
+		"@types/jest": "^25.2.1",
 		"@types/node": "^12.6.9",
+		"babel-jest": "^25.5.0",
 		"babel-loader": "^8.0.6",
+		"jest": "^25.5.0",
 		"string-replace-loader": "^2.3.0",
+		"ts-jest": "^25.4.0",
 		"ts-loader": "^6.0.4",
 		"typescript": "^3.5.3",
 		"webpack": "^4.39.1",

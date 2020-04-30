@@ -1,0 +1,4 @@
+{
+  "name": "./libs/validator.js",
+  "main": "validator.d.ts"
+}

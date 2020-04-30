@@ -1,7 +1,7 @@
 const pkj = require('./package.json')
 const webpack = require('webpack')
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/validator.ts',
   output: {
     filename: 'validator.js',
     path: __dirname + '/libs',
@@ -10,7 +10,10 @@ module.exports = {
     libraryExport: 'default',
     umdNamedDefine: true,
     globalObject: 'this'
-  },
+	},
+	resolve: {
+		extensions: ['.tsx', '.ts', '.js'],
+	},
   mode: 'production',
   module: {
     rules: [{

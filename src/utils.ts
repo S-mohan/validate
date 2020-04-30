@@ -58,16 +58,25 @@ export const getObjectValue = (key: string, source: any): any => {
 }
 
 
+/**
+ * 判断Object中是否含有key
+ * @param key 
+ * @param source 
+ */
 export const hasKey = (key: string, source: any): boolean => {
   if (_.isEmpty(key) || !source)
     return false
 
   const paths = key.split('.')
+  
+  if (paths.length === 1) {
+    return hasOwn(paths[0], source)
+  }
 
   const parentKey = paths.slice(0, paths.length - 1).join('.')
   const currentKey = paths[paths.length - 1]
   const obj = getObjectValue(parentKey, source)
-  if (isUndefined(obj) || !_.isPlainObject(obj) && !_.isArray(obj)) {
+  if (isUndefined(obj) || (!_.isPlainObject(obj) && !_.isArray(obj))) {
     return false
   }
 
@@ -75,12 +84,28 @@ export const hasKey = (key: string, source: any): boolean => {
 }
 
 
+
+
 /**
  * 首字母大写
  * @param value 
  */
-const ucfirst = (value: string): string => value.charAt(0).toUpperCase() + value.slice(1)
+export const ucfirst = (value: string): string => value.charAt(0).toUpperCase() + value.slice(1)
 
+
+const object = {
+  a: 1,
+  b: {
+    a: 2,
+    c: [1, 2],
+    d: {
+      e: 'success'
+    }
+  }
+}
+
+
+getObjectValue('a.b.a', object)
 
 export default {
   hasOwn,

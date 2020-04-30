@@ -1,19 +1,18 @@
 {
   "compilerOptions": {
-    "types": [],
-    "target": "ES6",
+    "target": "ES5",
     "lib": [
       "esnext",
       "dom"
     ],
-    "module": "system",
+    "module": "es2015",
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "jsconfig.json", "test/**/*"
   ],
   "exclude": [
     "node_modules",

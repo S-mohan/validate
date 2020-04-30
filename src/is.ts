@@ -5,7 +5,7 @@ export const TOSTRING: Function = Object.prototype.toString
 export const PRIMITIVE_VALUES: Array<string> = ['string', 'number', 'boolean', 'symbol']
 
 // 最大安全数
-export const MAX_SAFE_INTEGER: number = Number.MAX_SAFE_INTEGER || Math.pow(2, 53) - 1
+export const MAX_SAFE_INTEGER: number = (Number as any).MAX_SAFE_INTEGER || Math.pow(2, 53) - 1
 
 
 /**
@@ -52,7 +52,11 @@ export const isNull = (value: any): boolean => value === null
  * null | undefined | empty string
  * @param value 
  */
-export const isEmpty = (value: any): boolean => !!(isUndefined(value) || isNull(value) || isString(value) && value.trim().length === 0)
+export const isEmpty = (value: any): boolean => isUndefined(value) ||
+  isNull(value) ||
+  (isString(value) && value.trim().length === 0) ||
+  (isArray(value) && value.length === 0) ||
+  (isPlainObject(value) && Object.keys(value).length === 0)
 
 
 /**
@@ -96,7 +100,7 @@ export const isFunction = (value: any): boolean => typeof value === 'function'
  */
 export const isNumber = (value: any): boolean => {
   const numValue = isEmpty(value) ? NaN : +value
-  return typeof numValue === 'number' && isNaN(numValue)
+  return typeof numValue === 'number' && !Number.isNaN(numValue)
 }
 
 
