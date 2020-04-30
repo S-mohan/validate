@@ -1,6 +1,6 @@
 {
 	"name": "validator",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"description": "A cross-browser and server data validator",
 	"main": "./libs/validator.js",
 	"typings": "./validator.d.ts",

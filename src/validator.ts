@@ -226,10 +226,10 @@ export const validator: Validator = (source, constraints, options = {}) => {
     if (isEmpty(value)) {
       if (hasNotEmptyKey) {
         const { format, message } = formatRule(rules[NOT_EMPTY_KEY])
-        errorResult[field] = [parseMessage(message, locale[NOT_EMPTY_KEY], {
+        errors.push(parseMessage(message, locale[NOT_EMPTY_KEY], {
           field,
           format
-        })]
+        }))
       }
     }
 
